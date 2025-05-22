@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Builder;
 using MovieLibrary.Blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,9 +22,6 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.MapGet("/", () =>
-{
-    return Results.Ok("hello world");
-});
+app.MapGet("/home", () => "Hello World");
 
 app.Run();
