@@ -1,6 +1,6 @@
 namespace MovieLibraryApp.MovieLibrary.Shared.Models;
 
-public class PagedResult<TEntity>
+public class PagedItem<TEntity>
 {
     public IEnumerable<TEntity> Items { get; set; } = [];
     public int TotalCount { get; set; }

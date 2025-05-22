@@ -59,7 +59,7 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
 
     public async Task<TEntity?> GetByIdAsync(params object[] id) => await _dbSet.FindAsync(id);
 
-    public async Task<PagedResult<TEntity>> GetPagedAsync(
+    public async Task<PagedItem<TEntity>> GetPagedAsync(
         int pageNumber,
         int pageSize,
         Expression<Func<TEntity, bool>>? predicate = null,
@@ -81,7 +81,7 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
         var totalItems = await query.CountAsync();
         var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
-        return new PagedResult<TEntity>
+        return new PagedItem<TEntity>
         {
             Items = items,
             TotalCount = (int)Math.Ceiling(totalItems / (double)pageSize),

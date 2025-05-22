@@ -18,7 +18,7 @@ public interface IRepository<TEntity> where TEntity : class
     Task SoftDeleteAsync(TEntity entity);
     Task RestoreAsync(TEntity entity);
 
-    Task<PagedResult<TEntity>> GetPagedAsync(
+    Task<PagedItem<TEntity>> GetPagedAsync(
         int pageNumber,
         int pageSize,
         Expression<Func<TEntity, bool>>? predicate = null,
