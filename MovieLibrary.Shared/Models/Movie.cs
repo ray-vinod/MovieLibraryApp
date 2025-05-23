@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieLibraryApp.MovieLibrary.Shared.Models;
 
-public class Movie : IAuditable
+public class Movie : Auditable
 {
     public string? Id { get; set; }
 
@@ -18,10 +18,4 @@ public class Movie : IAuditable
 
     [Required]
     public int ReleaseDate { get; set; }
-
-
-    public bool IsDeleted { get; set; }
-    public DateTime? DeletedAt { get; set; }
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
 }
