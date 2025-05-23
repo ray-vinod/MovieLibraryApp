@@ -24,6 +24,6 @@ var app = builder.Build();
         .AddInteractiveServerRenderMode();
 }
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/home", () => "Hello World!");
 
 app.Run();
