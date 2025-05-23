@@ -9,7 +9,7 @@
   </PropertyGroup>
 
 
-   <ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\MovieLibrary.Shared\MovieLibrary.Shared.csproj" />
   </ItemGroup>
 
