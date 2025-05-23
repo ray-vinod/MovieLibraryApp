@@ -19,7 +19,7 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
 
     public async Task DeleteAsync(params object[] id)
     {
-        var entity = await GetByIdAsync(id);
+        var entity = await _dbSet.FindAsync(id);
         if (entity == null)
         {
             throw new ArgumentNullException(nameof(entity), "Entity not found");
@@ -39,9 +39,14 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
         return Task.CompletedTask;
     }
 
-    public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, bool includeAuditable = true)
+    public async Task<TEntity?> FindAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        bool includeAuditable = true,
+        params Expression<Func<TEntity, object>>[] includes)
     {
         var query = includeAuditable ? _dbSet.AsQueryable() : _dbSet.AsQueryable().IgnoreQueryFilters();
+        query = includes.Aggregate(query, (current, include) => current.Include(include));
+
         return await query.FirstOrDefaultAsync(predicate);
     }
 
@@ -51,9 +56,14 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
         return await query.ToListAsync();
     }
 
-    public async Task<IEnumerable<TEntity>?> GetAllAsync(Expression<Func<TEntity, bool>> predicate, bool includeAuditable = true)
+    public async Task<IEnumerable<TEntity>?> GetAllAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        bool includeAuditable = true,
+        params Expression<Func<TEntity, object>>[] includes)
     {
         var query = includeAuditable ? _dbSet.AsQueryable() : _dbSet.AsQueryable().IgnoreQueryFilters();
+        query = includes.Aggregate(query, (current, include) => current.Include(include));
+
         return await query.Where(predicate).ToListAsync();
     }
 
@@ -64,9 +74,11 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
         int pageSize,
         Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        bool includeAuditable = true)
+        bool includeAuditable = true,
+        params Expression<Func<TEntity, object>>[] includes)
     {
         var query = includeAuditable ? _dbSet.AsQueryable() : _dbSet.AsQueryable().IgnoreQueryFilters();
+        query = includes.Aggregate(query, (current, include) => current.Include(include));
 
         if (predicate != null)
         {
@@ -78,13 +90,16 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
             query = orderBy(query);
         }
 
-        var totalItems = await query.CountAsync();
+        // Total count of items
+        var totalItemCount = await query.CountAsync();
+
+        // Items for the current page
         var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
         return new PagedItem<TEntity>
         {
             Items = items,
-            TotalCount = (int)Math.Ceiling(totalItems / (double)pageSize),
+            TotalItemCount = (int)Math.Ceiling(totalItemCount / (double)pageSize),
             PageNumber = pageNumber,
             PageSize = pageSize,
         };
@@ -92,18 +107,8 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
 
     public Task RestoreAsync(TEntity entity)
     {
-        if (_context.Entry(entity).State == EntityState.Detached)
-        {
-            _dbSet.Attach(entity);
-        }
-
-        if (entity is IAuditable auditableEntity)
-        {
-            auditableEntity.IsDeleted = false;
-            auditableEntity.DeletedAt = null;
-        }
-
-        _dbSet.Update(entity);
+        _context.Entry(entity).State = EntityState.Detached;
+        _dbSet.Attach(entity);
 
         return Task.CompletedTask;
     }
@@ -117,20 +122,12 @@ public class Repository<TEntity, TDataContext>(TDataContext context) : IReposito
 
             await UpdateAsync(entity);
         }
-        else
-        {
-            await DeleteAsync(entity);
-        }
     }
 
     public Task UpdateAsync(TEntity entity)
     {
-        if (_context.Entry(entity).State == EntityState.Detached)
-        {
-            _dbSet.Attach(entity);
-        }
-
         _context.Entry(entity).State = EntityState.Modified;
+        _dbSet.Attach(entity);
 
         return Task.CompletedTask;
     }

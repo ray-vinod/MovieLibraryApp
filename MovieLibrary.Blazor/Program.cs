@@ -1,27 +1,29 @@
 using MovieLibrary.Blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-var app = builder.Build();
-
-if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    app.UseHsts();
+    builder.Services.AddRazorComponents()
+        .AddInteractiveServerComponents();
 }
 
-app.UseHttpsRedirection();
+var app = builder.Build();
+{
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Error", createScopeForErrors: true);
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
 
 
-app.UseAntiforgery();
+    app.UseAntiforgery();
 
-app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+    app.MapStaticAssets();
+    app.MapRazorComponents<App>()
+        .AddInteractiveServerRenderMode();
+}
 
-app.MapGet("/home", () => "Hello World");
+app.MapGet("/", () => "Hello World!");
 
 app.Run();
