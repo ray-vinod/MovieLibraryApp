@@ -13,4 +13,10 @@
     <ProjectReference Include="..\MovieLibrary.Shared\MovieLibrary.Shared.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
+  </ItemGroup>
+
 </Project>
