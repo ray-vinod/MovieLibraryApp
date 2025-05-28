@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace MovieLibraryApp.MovieLibrary.Api.Data;
-public class MovieLibrayDbContext : IdentityDbContext
+namespace MovieLibrary.Api.Data;
+
+public class MovieLibrayDbContext(DbContextOptions<MovieLibrayDbContext> options)
+    : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
 
 }

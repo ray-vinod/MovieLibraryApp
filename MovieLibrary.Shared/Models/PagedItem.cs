@@ -1,4 +1,4 @@
-namespace MovieLibraryApp.MovieLibrary.Shared.Models;
+namespace MovieLibrary.Shared.Models;
 
 public class PagedItem<TEntity>
 {

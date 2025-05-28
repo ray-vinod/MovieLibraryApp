@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace MovieLibraryApp.MovieLibrary.Shared.DTOs.Auth;
+namespace MovieLibrary.Shared.DTOs.Auth;
 
 public class UserDto
 {

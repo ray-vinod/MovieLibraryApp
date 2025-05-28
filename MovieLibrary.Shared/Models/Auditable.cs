@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MovieLibraryApp.MovieLibrary.Shared.Models;
+namespace MovieLibrary.Shared.Models;
 
 public class Auditable : IAuditable
 {

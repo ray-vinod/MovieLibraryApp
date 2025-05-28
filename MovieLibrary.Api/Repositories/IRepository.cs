@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
-using MovieLibraryApp.MovieLibrary.Shared.Models;
 
-namespace MovieLibraryApp.MovieLibrary.Api.Repositories;
+namespace MovieLibrary.Api.Repositories;
 
 public interface IRepository<TEntity> where TEntity : class
 {

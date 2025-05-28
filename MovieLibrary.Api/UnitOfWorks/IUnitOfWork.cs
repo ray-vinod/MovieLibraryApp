@@ -1,6 +1,4 @@
-using MovieLibraryApp.MovieLibrary.Api.Repositories;
-
-namespace MovieLibraryApp.MovieLibrary.Api.UnitOfWorks;
+namespace MovieLibrary.Api.UnitOfWorks;
 
 public interface IUnitOfWork : IDisposable
 {

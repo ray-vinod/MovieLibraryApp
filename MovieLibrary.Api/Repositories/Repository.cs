@@ -1,8 +1,6 @@
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using MovieLibraryApp.MovieLibrary.Shared.Models;
 
-namespace MovieLibraryApp.MovieLibrary.Api.Repositories;
+namespace MovieLibrary.Api.Repositories;
 
 public class Repository<TEntity, TDataContext>(TDataContext context) : IRepository<TEntity>
     where TEntity : class

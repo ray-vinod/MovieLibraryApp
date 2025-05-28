@@ -1,10 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using MovieLibraryApp.MovieLibrary.Api.Data;
-using MovieLibraryApp.MovieLibrary.Api.Model.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 {

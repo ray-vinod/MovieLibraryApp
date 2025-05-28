@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MovieLibraryApp.MovieLibrary.Shared.DTOs.Auth;
+namespace MovieLibrary.Shared.DTOs.Auth;
 
 public class LoginDto
 {

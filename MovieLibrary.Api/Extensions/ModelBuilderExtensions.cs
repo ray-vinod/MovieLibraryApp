@@ -1,8 +1,6 @@
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using MovieLibraryApp.MovieLibrary.Shared.Models;
 
-namespace MovieLibraryApp.MovieLibrary.Api.Extensions;
+namespace MovieLibrary.Api.Extensions;
 
 public static class ModelBuilderExtensions
 {

@@ -1,4 +1,4 @@
-namespace MovieLibraryApp.MovieLibrary.Api.Endpoints;
+namespace MovieLibrary.Api.Endpoints;
 
 public class HomeEndpoints
 {

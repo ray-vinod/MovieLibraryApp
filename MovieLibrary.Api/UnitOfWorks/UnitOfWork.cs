@@ -1,8 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using MovieLibraryApp.MovieLibrary.Api.Repositories;
-using MovieLibraryApp.MovieLibrary.Shared.Models;
-
-namespace MovieLibraryApp.MovieLibrary.Api.UnitOfWorks;
+namespace MovieLibrary.Api.UnitOfWorks;
 
 public class UnitOfWork<TDataContext>(TDataContext context) : IUnitOfWork where TDataContext : DbContext
 {
