@@ -1,24 +1,37 @@
 namespace MovieLibrary.Api.Models.Auth;
 
-public class ApplicationUser : IdentityUser<string>
+public class ApplicationUser : IdentityUser<string>, IAuditable
 {
-    public ApplicationUser() : base() { }
-
-    public ApplicationUser(string userName) : base(userName) { }
-
-    public ApplicationUser(string userName, string? email) : base(userName)
-    {
-        Email = email;
-    }
-
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public string? FullName => $"{FirstName} {LastName}";
-    public string? ProfilePictureUrl { get; set; }
-    public string? Bio { get; set; }
+    [Required]
+    [EmailAddress]
+    [PersonalData]
+    public override string? Email { get; set; }
 
     [Required]
-    [DataType(DataType.Date)]
-    public DateOnly DateOfBirth { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    [PersonalData]
+    public override string? UserName { get; set; }
 
+
+    [Required]
+    [PersonalData]
+    public string? FirstName { get; set; }
+
+
+    [PersonalData]
+    public string? LastName { get; set; }
+    public string FullName => $"{FirstName ?? ""} {LastName ?? ""}".Trim();
+
+    public string? ProfilePictureUrl { get; set; }
+
+    [PersonalData]
+    public string? Bio { get; set; }
+
+    [DataType(DataType.Date)]
+    [PersonalData]
+    public DateOnly? DateOfBirth { get; set; }
+
+    public bool IsDeleted { get; set; } = false;
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }
