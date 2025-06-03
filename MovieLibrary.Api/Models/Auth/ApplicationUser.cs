@@ -11,7 +11,6 @@ public class ApplicationUser : IdentityUser<string>, IAuditable
     [PersonalData]
     public override string? UserName { get; set; }
 
-
     [Required]
     [PersonalData]
     public string? FirstName { get; set; }
@@ -26,9 +25,12 @@ public class ApplicationUser : IdentityUser<string>, IAuditable
     [PersonalData]
     public string? Bio { get; set; }
 
-    [DataType(DataType.Date)]
+    [DataType(DataType.DateTime)]
     [PersonalData]
-    public DateOnly? DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
+
+    public bool RememberMe { get; set; } = false;
+    public bool AcceptTerms { get; set; } = false;
 
     public bool IsDeleted { get; set; } = false;
     public DateTime? CreatedAt { get; set; }

@@ -1,4 +1,3 @@
-
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
@@ -6,46 +5,41 @@ namespace MovieLibrary.Shared.DTOs.Auth;
 
 public class RegisterUserDto
 {
-    [Required, EmailAddress]
-    public string Email { get; set; } = string.Empty;
-
-    [Phone]
-    [RegularExpression(@"^[+]?((\d{1,3})?[- .(]?)?(\d{3}[- .)]?){2}\d{4}$", ErrorMessage = "Invalid Phonenumber")]
-    public string? Phone { get; set; }
-
-    [Required, MinLength(8), MaxLength(20)]
-    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$")]
-    [DataType(DataType.Password)]
-    public string Password { get; set; } = string.Empty;
-
     [Required]
-    [DataType(DataType.Password)]
-    [Compare(nameof(Password))]
-    public string ConfirmPassword { get; set; } = string.Empty;
-
-    [Required]
-    [MinLength(2), MaxLength(50)]
-    [Display(Name = "First Name")]
-    public string FirstName { get; set; } = string.Empty;
-
-
-    [MinLength(2), MaxLength(50)]
-    [Display(Name = "Last Name")]
+    public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public string? FullName => $"{FirstName} {LastName}";
+    public string? ProfilePictureUrl { get; set; }
 
     [Required]
-    [Display(Name = "Date of Birth")]
-    [DataType(DataType.Date)]
-    public DateOnly DateOfBirth { get; set; }
+    [EmailAddress]
+    public string? Email { get; set; }
 
-    [Display(Name = "Profile Image")]
+    [Required]
+    [DataType(DataType.Date)]
+    [Display(Name = "Date of Birth")]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    [Range(typeof(DateTime), "1900-01-01", "2100-12-31", ErrorMessage = "Date of Birth must be between 1900 and 2100.")]
+    public DateTime DateOfBirth { get; set; }
+
+    [Display(Name = "Phone Number")]
+    [Phone]
+    [RegularExpression(@"^\+?[1-9]\d{0,3}-?[1-9]\d{6,10}$", ErrorMessage = "Invalid phone number format.")]
+    public string? PhoneNumber { get; set; }
+
+    [Required]
+    [DataType(DataType.Password)]
+    public string? Password { get; set; }
+
+    public string? ProfileImagePath { get; set; }
+
     public IFormFile? ProfileImage { get; set; }
 
-    [Display(Name = "Bio")]
-    [MaxLength(500)]
-    public string? Bio { get; set; }
-
     public List<string> Roles { get; set; } = [];
+
+    [Display(Name = "Bio")]
+    [MaxLength(500, ErrorMessage = "Bio cannot exceed 500 characters.")]
+    public string? Bio { get; set; }
 
     [Display(Name = "Remember Me")]
     public bool RememberMe { get; set; } = false;
